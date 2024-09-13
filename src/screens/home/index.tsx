@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Home= ({ navigation }) => {
+const Home = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const wash_and_go_logo = require('../../assets/images/wash_go_logo.png');
     const drop_btm_left = require('../../assets/images/drop_btm_left.png');
@@ -28,7 +28,7 @@ const Home= ({ navigation }) => {
         try {
             await AsyncStorage.removeItem('user');
             // Navigate to SignIn screen or any other desired screen
-            navigation.navigate('SignIn');
+            navigation.replace('SignIn');
         } catch (error) {
             Alert.alert('Error', 'Failed to log out. Please try again.');
             console.error('Logout error:', error);
@@ -36,31 +36,33 @@ const Home= ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-            {/* Logo */}
-            <Image source={wash_and_go_logo} style={styles.logo} />
+        <ScrollView contentContainerStyle={{flexGrow:1}}>
+            <View style={styles.container}>
+                {/* Logo */}
+                <Image source={wash_and_go_logo} style={styles.logo} />
 
-            {/* Header Section */}
-            <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>Welcome, {userName}!</Text>
-                <Text style={styles.subText}>We’re glad to have you back</Text>
+                {/* Header Section */}
+                <View style={styles.headerContainer}>
+                    <Text style={styles.headerText}>Welcome, {userName}!</Text>
+                    <Text style={styles.subText}>We’re glad to have you back</Text>
+                </View>
+
+                {/* Logout Button */}
+                <Button
+                    mode="contained"
+                    onPress={handleLogout}
+                    style={styles.logoutButton}
+                    contentStyle={styles.logoutButtonContent}
+                    textColor='#092A4D'
+                    labelStyle={{ fontSize: 20, fontWeight: '700' }}
+                >
+                    Logout
+                </Button>
+
+                {/* Bottom Decoration */}
+                <Image source={drop_btm_left} style={styles.bottomImage} />
             </View>
-
-            {/* Logout Button */}
-            <Button
-                mode="contained"
-                onPress={handleLogout}
-                style={styles.logoutButton}
-                contentStyle={styles.logoutButtonContent}
-                textColor='#092A4D'
-                labelStyle={{ fontSize: 20, fontWeight: '700' }}
-            >
-                Logout
-            </Button>
-
-            {/* Bottom Decoration */}
-            <Image source={drop_btm_left} style={styles.bottomImage} />
-        </View>
+        </ScrollView>
     );
 };
 

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, ImageBackground } from 'react-native';
+import { StyleSheet, View, ImageBackground, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
 
 // Import the background image
 const bg_image = require('../../assets/images/logo_page.png'); // Assuming the image is in the correct path
@@ -31,13 +32,15 @@ const Splash = () => {
     }, [navigation]);
 
     return (
-        <View style={styles.container}>
+       <ScrollView contentContainerStyle={{flexGrow:1}}>
+         <View style={styles.container}>
             <ImageBackground source={bg_image} style={styles.background}>
                 {/* You can add logo or other elements here */}
                 {/* <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
                 <Text style={styles.text}>Welcome to MyApp</Text> */}
             </ImageBackground>
         </View>
+       </ScrollView>
     );
 };
 

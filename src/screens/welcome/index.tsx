@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 
 const Welcome = () => {
     const drop_top_right = require("./images/drop1.png");
@@ -8,28 +8,30 @@ const Welcome = () => {
     const logo_sub_text = "Sparkle & Shine Transform Your Drive with Every Wash!";
 
     return (
-        <View style={styles.container}>
+       <ScrollView contentContainerStyle={{flexGrow:1}}>
+         <View style={styles.container}>
 
-            <Image source={drop_top_left} style={styles.dropTopLeft} />
-
-
-            <Image source={drop_top_right} style={styles.dropTopRight} />
+<Image source={drop_top_left} style={styles.dropTopLeft} />
 
 
-            <Image source={wash_and_go_logo} style={styles.logo} />
+<Image source={drop_top_right} style={styles.dropTopRight} />
 
 
-            <Text style={styles.logoSubText}>{logo_sub_text}</Text>
+<Image source={wash_and_go_logo} style={styles.logo} />
 
 
-            <TouchableOpacity style={styles.letsGoButton}>
-                <Text style={styles.buttonText}>Let's Start</Text>
-            </TouchableOpacity>
+<Text style={styles.logoSubText}>{logo_sub_text}</Text>
 
-            <TouchableOpacity style={styles.signUpLink}>
-                <Text style={styles.signUpText}>Already have an account?  <Text style={styles.signUpTextBold}>Sign in?</Text></Text>
-            </TouchableOpacity>
-        </View>
+
+<TouchableOpacity style={styles.letsGoButton}>
+    <Text style={styles.buttonText}>Let's Start</Text>
+</TouchableOpacity>
+
+<TouchableOpacity style={styles.signUpLink}>
+    <Text style={styles.signUpText}>Already have an account?  <Text style={styles.signUpTextBold}>Sign in?</Text></Text>
+</TouchableOpacity>
+</View>
+       </ScrollView>
     );
 };
 

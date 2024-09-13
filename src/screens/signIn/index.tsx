@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
 
 const SignIn = () => {
     const wash_and_go_logo = require('../../assets/images/wash_go_logo.png');
@@ -10,7 +11,7 @@ const SignIn = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-   const navigation =useNavigation();
+    const navigation = useNavigation();
     const handleSignIn = async () => {
         if (!phone || !password) {
             Alert.alert("Error", "Please enter both phone number and password.");
@@ -30,14 +31,21 @@ const SignIn = () => {
             });
 
             const result = await response.json();
-
-            if (response.ok) {
-                // Store result in AsyncStorage
-                await AsyncStorage.setItem('user', JSON.stringify(result.data));
+            if (result.status) {
                 navigation.replace("Home")
+
+            }
+            else {
                 if (result?.message) {
                     Alert.alert("Message", result?.message);
                 }
+            }
+            console.log('result', result)
+            if (response.ok) {
+                // Store result in AsyncStorage
+                await AsyncStorage.setItem('user', JSON.stringify(result.data));
+
+
             } else {
                 // Handle error response
                 Alert.alert("Error", result.message || "An error occurred. Please try again.");
@@ -49,100 +57,102 @@ const SignIn = () => {
     };
 
     return (
-        <View style={styles.container}>
-            {/* Logo */}
-            <Image source={wash_and_go_logo} style={styles.logo} />
+        <ScrollView contentContainerStyle={{flexGrow:1}}>
+            <View style={styles.container}>
+                {/* Logo */}
+                <Image source={wash_and_go_logo} style={styles.logo} />
 
-            {/* Header Section */}
-            <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>Sign In</Text>
-                <Text style={styles.subText}>Hi! Welcome back, you have been missed</Text>
-            </View>
+                {/* Header Section */}
+                <View style={styles.headerContainer}>
+                    <Text style={styles.headerText}>Sign In</Text>
+                    <Text style={styles.subText}>Hi! Welcome back, you have been missed</Text>
+                </View>
 
-            {/* Input Fields */}
-            <View style={styles.inputContainer}>
-                {/* Phone Input */}
-                <TextInput
-                    label="Phone Number"
-                    value={phone}
-                    onChangeText={(text) => setPhone(text)}
-                    mode="outlined"
-                    placeholder="123-456-7890"
-                    left={<TextInput.Icon icon="phone-outline" color="#808080" />}
-                    style={styles.input}
-                    keyboardType="phone-pad"
-                    autoCapitalize="none"
-                    outlineColor="#ccc"
-                    activeOutlineColor="#8CBDF9"
-                    textColor="#000"
-                />
+                {/* Input Fields */}
+                <View style={styles.inputContainer}>
+                    {/* Phone Input */}
+                    <TextInput
+                        label="Phone Number"
+                        value={phone}
+                        onChangeText={(text) => setPhone(text)}
+                        mode="outlined"
+                        placeholder="123-456-7890"
+                        left={<TextInput.Icon icon="phone-outline" color="#808080" />}
+                        style={styles.input}
+                        keyboardType="phone-pad"
+                        autoCapitalize="none"
+                        outlineColor="#ccc"
+                        activeOutlineColor="#8CBDF9"
+                        textColor="#000"
+                    />
 
-                {/* Password Input */}
-                <TextInput
-                    label="Password"
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    mode="outlined"
-                    placeholder="password"
-                    secureTextEntry={!showPassword}
-                    left={<TextInput.Icon icon="lock-outline" color="#808080" />}
-                    right={
-                        <TextInput.Icon
-                            icon={showPassword ? "eye-off-outline" : "eye-outline"}
-                            onPress={() => setShowPassword(!showPassword)}
-                            color="#808080"
-                        />
-                    }
-                    style={styles.input}
-                    outlineColor="#ccc"
-                    activeOutlineColor="#8CBDF9"
-                    textColor="#000"
-                />
-            </View>
+                    {/* Password Input */}
+                    <TextInput
+                        label="Password"
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        mode="outlined"
+                        placeholder="password"
+                        secureTextEntry={!showPassword}
+                        left={<TextInput.Icon icon="lock-outline" color="#808080" />}
+                        right={
+                            <TextInput.Icon
+                                icon={showPassword ? "eye-off-outline" : "eye-outline"}
+                                onPress={() => setShowPassword(!showPassword)}
+                                color="#808080"
+                            />
+                        }
+                        style={styles.input}
+                        outlineColor="#ccc"
+                        activeOutlineColor="#8CBDF9"
+                        textColor="#000"
+                    />
+                </View>
 
-            {/* Forgot Password */}
-            <TouchableOpacity>
-                <Text style={styles.forgotPassword}>Forgot password?</Text>
-            </TouchableOpacity>
-
-            {/* Sign In Button */}
-            <Button
-                mode="contained"
-                onPress={handleSignIn}
-                style={styles.signInButton}
-                contentStyle={styles.signInButtonContent}
-                textColor='#092A4D'
-                labelStyle={{ fontSize: 20, fontWeight: '700' }}
-            >
-                Sign In
-            </Button>
-
-            {/* Or Divider with Lines */}
-            <View style={styles.orContainer}>
-                <View style={styles.line} />
-                <Text style={styles.orText}>or</Text>
-                <View style={styles.line} />
-            </View>
-
-            {/* Google and Apple Sign In */}
-            <View style={styles.socialContainer}>
+                {/* Forgot Password */}
                 <TouchableOpacity>
-                    <Image source={require('../../assets/images/google.png')} style={styles.socialIcon} />
+                    <Text style={styles.forgotPassword}>Forgot password?</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image source={require('../../assets/images/apple.png')} style={styles.socialIcon} />
-                </TouchableOpacity>
-            </View>
 
-            {/* Sign Up */}
-            <Text style={styles.signUpText}  onPress={()=>{navigation.replace("SignUp")}}>
-                Don’t have an account? <Text style={styles.signUpLink} onPress={()=>{navigation.replace("SignUp")}}>Sign Up</Text>
-            </Text>
-            <Text style={styles.licenceText}>By login or sign up, you agree to our terms of use and privacy policy</Text>
-            
-            {/* Bottom Decoration */}
-            <Image source={drop_btm_left} style={styles.bottomImage} />
-        </View>
+                {/* Sign In Button */}
+                <Button
+                    mode="contained"
+                    onPress={handleSignIn}
+                    style={styles.signInButton}
+                    contentStyle={styles.signInButtonContent}
+                    textColor='#092A4D'
+                    labelStyle={{ fontSize: 20, fontWeight: '700' }}
+                >
+                    Sign In
+                </Button>
+
+                {/* Or Divider with Lines */}
+                <View style={styles.orContainer}>
+                    <View style={styles.line} />
+                    <Text style={styles.orText}>or</Text>
+                    <View style={styles.line} />
+                </View>
+
+                {/* Google and Apple Sign In */}
+                <View style={styles.socialContainer}>
+                    <TouchableOpacity>
+                        <Image source={require('../../assets/images/google.png')} style={styles.socialIcon} />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image source={require('../../assets/images/apple.png')} style={styles.socialIcon} />
+                    </TouchableOpacity>
+                </View>
+
+                {/* Sign Up */}
+                <Text style={styles.signUpText} onPress={() => { navigation.replace("SignUp") }}>
+                    Don’t have an account? <Text style={styles.signUpLink} onPress={() => { navigation.replace("SignUp") }}>Sign Up</Text>
+                </Text>
+                <Text style={styles.licenceText}>By login or sign up, you agree to our terms of use and privacy policy</Text>
+
+                {/* Bottom Decoration */}
+                <Image source={drop_btm_left} style={styles.bottomImage} />
+            </View>
+        </ScrollView>
     );
 };
 
@@ -245,7 +255,7 @@ const styles = StyleSheet.create({
         left: 0,
     },
     licenceText: {
-        color: '#808080', 
+        color: '#808080',
         textAlign: 'center',
         marginTop: 20
     }

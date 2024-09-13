@@ -15,11 +15,10 @@ function App(): React.JSX.Element {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    {/* content */}
-    <ScrollView contentContainerStyle={{flex:1}}>
-    <AppNavigator />
-    </ScrollView>
-  </GestureHandlerRootView>
+
+      <AppNavigator />
+
+    </GestureHandlerRootView>
 
   );
 }
