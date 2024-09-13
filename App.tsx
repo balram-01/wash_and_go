@@ -1,10 +1,8 @@
 import React from 'react';
-import { useColorScheme, StyleSheet } from 'react-native';
+import {useColorScheme, StyleSheet} from 'react-native';
 import AppNavigator from './src/navigation';
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -14,12 +12,9 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-
+    <GestureHandlerRootView style={{flex: 1}}>
       <AppNavigator />
-
     </GestureHandlerRootView>
-
   );
 }
 
